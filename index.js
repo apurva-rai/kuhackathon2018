@@ -1,34 +1,25 @@
+var height = 400;
+var width = 710;
+
 function setup(){
-  createCanvas(710, 400, WEBGL);
+  createCanvas(width, height, WEBGL);
     pixelDensity(1);
      
 }
 
 function draw(){
-  background(255);
-  ellipse(0,0,400,400,8);
-  for(var j = 0; j < 10; j++){
+    background(255);
+    
     push();
-    for(var i = 0; i < 5; i++){
-      
-      push();
-      makebox(200); 
-      pop();
-    }
+    
     pop();
-  }
+  
 }
 
-function makebox(rad)
+function toCart(complex)
 {
-    if(rad > 10)
-    {
-        for(rep = 0.0; rep <2*Math.PI; rep+=Math.PI/(frameCount % 24))
-        {
-            ellipse(rad*cos(rep),rad*sin(rep),rad, rad,8);
-        }
-        
-        makebox(rad/2);
-    }
-    
+    complex.real 
+}
+function mousePressed() {
+  remove(); // remove whole sketch on mouse press
 }
