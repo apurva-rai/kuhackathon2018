@@ -1,19 +1,34 @@
 function setup(){
   createCanvas(710, 400, WEBGL);
+    pixelDensity(1);
+     
 }
 
 function draw(){
   background(255);
-
-  for(var j = 0; j < 100; j++){
+  ellipse(0,0,400,400,8);
+  for(var j = 0; j < 10; j++){
     push();
-    for(var i = 0; i < 15; i++){
-      translate(cos(frameCount *.001 + j) * 5, tan(frameCount * .01 + j) * 10, i * 1);
+    for(var i = 0; i < 5; i++){
       
       push();
-      box(80); 
+      makebox(200); 
       pop();
     }
     pop();
   }
+}
+
+function makebox(rad)
+{
+    if(rad > 10)
+    {
+        for(rep = 0.0; rep <2*Math.PI; rep+=Math.PI/(frameCount % 24))
+        {
+            ellipse(rad*cos(rep),rad*sin(rep),rad, rad,8);
+        }
+        
+        makebox(rad/2);
+    }
+    
 }
