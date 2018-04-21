@@ -26,4 +26,9 @@ class Complex {
     {
         console.log(this.real + " " + this.imaginary);
     }
+    
+    mag()
+    {
+        return this.real *this.real + this.imaginary * this.imaginary;
+    }
 }
