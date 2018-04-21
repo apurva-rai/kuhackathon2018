@@ -18,8 +18,9 @@ function draw(){
 
 function toCart(complex)
 {
-    complex.real 
+    point(complex.real/2 * width, complex.
 }
+          
 function mousePressed() {
   remove(); // remove whole sketch on mouse press
 }
