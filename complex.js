@@ -3,24 +3,27 @@ class Complex {
         this.real = real;
         this.imaginary = imaginary;
     }
-    
-    add(Complex num1, Complex num2)
+    add(num1) 
     {
-        return new Complex(num1.real + num2.real, num1.imaginary +num2.imaginary);
+        return new Complex(num1.real + this.real, num1.imaginary +this.imaginary);
     }
     
-    subtract(Complex num1, Complex num2)
+    subtract(num1)
     {
-        return new Complex(num1.real - num2.real, num1.imaginary - num2.imaginary);
+        return new Complex(num1.real - this.real, num1.imaginary - this.imaginary);
     }
     
-    mulitply(Complex num1, Complex num2)
+    multiply(num1)
     {
-        return new Complex(num1.real * num2.real, num1.imaginary * num2.imaginary);
+        return new Complex(this.real * num1.real - this.imaginary * num1.imaginary, this.real * num1.imaginary + this.imaginary * num1.real);
     }
     
-    divide(Complex num1, Complex num2)
+    divide(num1)
     {
-        return new Complex(num1.real / num2.real, num1.imaginary / num2.imaginary);
+        return new Complex(num1.real / this.real, num1.imaginary / this.imaginary);
+    }
+    log()
+    {
+        console.log(this.real + " " + this.imaginary);
     }
 }
