@@ -7,8 +7,8 @@ var maxSound= 220;
 var minSound=-220;*/
 
 function setup() {
-    console.log("This is happening.")
-    actualSound=new p5.Oscillator;
+    
+    actualSound=new p5.Oscillator();
     actualSound.setType("sine");
     actualSound.amp(1);
     actualSound.freq(400);
