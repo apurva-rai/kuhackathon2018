@@ -17,6 +17,10 @@ var imaginaryEnd = 1.12;
 // adds an event listener to a checkbox for later faking mouse clicks
 document.getElementById("flowBox").addEventListener("click", fakeClick);
 
+document.getElementById("redSlider").addEventListener("mouseup", drawFractal);
+document.getElementById("greenSlider").addEventListener("mouseup", drawFractal);
+document.getElementById("blueSlider").addEventListener("mouseup", drawFractal);
+
 //Number of function iterations for each complex coordinated
 //1000 is the sweet spot in terms of quality of the visuals per ammount of render time
 var iterations = 1000;
@@ -67,7 +71,11 @@ function zoom(evt)
 
     //fractal redrawn
     drawFractal();   
+    
+
 }
+
+
 
 //for continuous zoom
 //creates a fake mouse event and then fakes continous clicks using a check box
@@ -78,8 +86,8 @@ function fakeClick()
     fakeMouse.y = height/2.18;
     
     document.getElementById("zoomInput").value = 3;
-    
-    setInterval(zoom(fakeMouse), 6000);
+    zoom(fakeMouse);
+
     
 }
 
@@ -174,18 +182,20 @@ function drawFractal()
 
 function redColor(reps)
 {
-    return Math.abs(Math.cos(Math.log(reps * Math.PI))) * 256;
+    var redSlider = 100/document.getElementById("redSlider").value;
+    return Math.abs(Math.cos( redSlider* Math.log(reps * Math.PI))) * 256;
 }
 
 function greenColor(reps)
 {
-    return Math.abs(Math.sin(reps * Math.PI * 2)) * 256;
+     var greenSlider = 100/document.getElementById("greenSlider").value;
+    return Math.abs(Math.sin(greenSlider*reps * Math.PI * 2)) * 256;
 }
 
 function blueColor(reps)
 {
-
-    return Math.abs(Math.cos(reps * Math.PI/2)) * 256;
+    var blueSlider = 100/document.getElementById("blueSlider").value;
+    return Math.abs(Math.cos(blueSlider*reps * Math.PI/2)) * 256;
 }
 
 //draw pixel sets 1 pixels color, given its location and its associated rgba values
