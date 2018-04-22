@@ -1,34 +1,88 @@
 
 
-const height = 1080;
-const width = 1920;
+const height = document.getElementById("fracCanvas").height;
+const width = document.getElementById("fracCanvas").width;
 
 var realStart = -2;
-var realEnd = .47;
-var imaginaryStart = -1.12;
+var realEnd = 2;
+var imaginaryStart =-1.12;
 var imaginaryEnd = 1.12;
 
-var canvas=document.getElementById("fracCanvas");
-var context=canvas.getContext("2d");
+var canvas = document.getElementById("fracCanvas");
+var context = canvas.getContext("2d");
+
+canvas.addEventListener("mousedown", zoom, false);
+
 
 var rgba = context.getImageData(0, 0, width, height);
-function setup(){
-}
 
+function zoom(evt)
+{
+  
+    
+    
+    var ycenter = -1*(evt.y/height)*(imaginaryEnd-imaginaryStart) + imaginaryEnd;
+    console.log("y" + ycenter);
+    
+    var xcenter = realStart + (evt.x/width)*(realEnd-realStart);
+    console.log("x" + xcenter);
+    
+    var tempEnd = realStart;
+    realStart = xcenter - (.4 *( realEnd-realStart))/2;
+    realEnd = xcenter - (.4 *( tempEnd-realEnd))/2;
+    
+     tempEnd = imaginaryStart;
+    imaginaryStart = ycenter - (.4 *( imaginaryEnd-imaginaryStart))/2;
+    imaginaryEnd = ycenter - (.4 *( tempEnd-imaginaryEnd))/2;
+
+    /*
+    var real1 = ( (realEnd - realStart) / width) * evt.x/2 + realStart;
+    var imaginary1 = imaginaryEnd - ( (imaginaryEnd - imaginaryStart) / height) * evt.y;
+
+    var real2 = ( (realEnd - realStart) / width) * evt.x/2 + realEnd;
+    var imaginary2 = imaginaryEnd - ( (imaginaryEnd - imaginaryStart) / height) * evt.y;
+
+    realStart = real1;
+    realEnd = real2;
+    imaginaryStart = imaginary2;
+    imaginaryEnd = imaginary1;
+    */
+  
+
+  drawFractal();
+    
+   
+}
 
 function updateCanvas() {
     context.putImageData(rgba, 0, 0);
 }
 
+function custom(comp1, comp2)
+{
+    return new Complex(comp)
+}
+
+function flip(comp1)
+{
+    return new Complex(comp1.imaginary, comp1.real);
+}
+
 function iterate(comp)
 {
-    var constant = comp;
+    var constant = comp.add(comp);
   
   for (loo = 1; loo <= 1000; loo++)
   {
-     
+     //mandelbrot
       comp = comp.multiply(comp);
-       comp = constant.add(comp);
+       comp = comp.add(constant);
+      //comp = flip(comp);
+      //comp = comp.multiply(comp);
+      
+      //buddahbrot
+      
+      
       
     if ( comp.mag() > 4 )
     {
@@ -71,13 +125,13 @@ function drawFractal()
 function redColor(reps)
 {
     if(reps == 1)
-     return (reps*15)%256;
+     return (reps*15)%256 + 35*Math.random();
   if(reps == 2)
-	return (reps*5)%256;
+	return (reps*5)%256 + 35*Math.random();
   if(reps == 3) 
-	return (reps+10)%256;
+	return 15*Math.random();
   else
-	return (reps+50)%256;
+	return (reps+50)%256 + 35*Math.random();
 }
 
 function greenColor(reps)
@@ -87,7 +141,7 @@ function greenColor(reps)
   if(reps == 2)
 	return (reps*150)%256;
   if(reps == 3) 
-	return (Math.random() * (reps+100) )%256;
+	return 0;
   else
 	return 0;
 }
@@ -95,11 +149,11 @@ function greenColor(reps)
 function blueColor(reps)
 {
     if(reps == 1)
-     return (reps *220)%256;
+     return (reps+50)%256;
   if(reps == 2)
 	return (reps+50)%256;
   if(reps == 3) 
-	return (reps*100)%256;
+	return 0;
   else
 	return 0;
 }
@@ -108,6 +162,7 @@ function drawPixel(xPix, yPix, r,g,b, n)
 {
     //ellipse(xPix,yPix, 1, 1);
     //fill(r,g,b);
+   
     
     var index = (xPix + yPix * width)*4;
 
