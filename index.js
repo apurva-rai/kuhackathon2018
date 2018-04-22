@@ -11,8 +11,8 @@ const width = document.getElementById("fracCanvas").width;
 //complex plane intervals
 var realStart = -2;
 var realEnd = 2;
-var imaginaryStart =-1.12;
-var imaginaryEnd = 1.12;
+var iStart =-1.12;
+var iEnd = 1.12;
 
 // adds an event listener to a checkbox for later faking mouse clicks
 document.getElementById("flowBox").addEventListener("click", fakeClick);
@@ -49,7 +49,7 @@ function zoom(evt)
     
     //Using the mousedown x and y pixel locations, 
     //the new center of the screen in complex coordinates is put into xcenter and ycenter
-    var ycenter = -1*(evt.y/height)*(imaginaryEnd-imaginaryStart) + imaginaryEnd;
+    var ycenter = -1*(evt.y/height)*(iEnd-iStart) + iEnd;
     console.log("y" + ycenter);
     
     var xcenter = realStart + (evt.x/width)*(realEnd-realStart);
@@ -61,16 +61,17 @@ function zoom(evt)
     realStart = xcenter - (zoomInput *( realEnd-realStart))/2;
     realEnd = xcenter - (zoomInput*( tempEnd-realEnd))/2;
     
-    tempEnd = imaginaryStart;
-    imaginaryStart = ycenter - (zoomInput*( imaginaryEnd-imaginaryStart))/2;
-    imaginaryEnd = ycenter - (zoomInput *( tempEnd-imaginaryEnd))/2;
+    tempEnd = iStart;
+    iStart = ycenter - (zoomInput*( iEnd-iStart))/2;
+    iEnd = ycenter - (zoomInput *( tempEnd-iEnd))/2;
     
     //calculates the interval length
     scale=Math.abs(realEnd)-Math.abs(realStart);
     console.log(Math.abs(scale));
 
     //fractal redrawn
-    drawFractal();   
+    drawFractal();  
+    console.log(performance.now());
     
 
 }
@@ -87,6 +88,7 @@ function fakeClick()
     
     document.getElementById("zoomInput").value = 3;
     zoom(fakeMouse);
+   
 
     
 }
@@ -99,33 +101,27 @@ function updateCanvas()
 
 function custom(comp1, comp2)
 {
-    return new Complex(comp)
+    return comp1;
 }
 
-function flip(comp1)
-{
-    return new Complex(comp1.imaginary, comp1.real);
-}
 
+//the iterative function that implements the math involved in the patterns of the fractal
+//The most basic mandelbrot fractal is xsubn^2 = xsubn-1 + c
 function iterate(comp)
 {
     var constant = comp.add(comp);
   
-  for (loo = 1; loo <= iterations; loo++)
-  {
-     
-      comp = comp.multiply(comp);
-       comp = comp.add(constant);
-      //comp = flip(comp);
-      //comp = comp.multiply(comp);
+    for (loo = 1; loo <= iterations; loo++)
+    {   
+        comp = comp.multiply(comp);
+        comp = comp.add(constant);
       
-    if ( comp.mag() > 4 )
-    {
-      return loo;
+        if ( comp.mag() >10 )
+        {
+            return loo;
+        } 
     }
-  }
-  return 0;
-    
+    return 0;    
 }
 
 
@@ -133,7 +129,7 @@ function drawFractal()
 {
     
     var real = realStart;
-    var imaginary = imaginaryStart;
+    var imaginary = iStart;
     
     for (horPixel = 0;  horPixel< width; horPixel++)
     {  
@@ -165,9 +161,9 @@ function drawFractal()
                 drawPixel(horPixel, vertPixel, redColor(xsubn), greenColor(xsubn), blueColor(xsubn), 255);
             }
             
-            imaginary = imaginaryEnd - ( (imaginaryEnd -imaginaryStart) / height) * vertPixel;
+            imaginary = iEnd - ((iEnd -iStart) / height) * vertPixel;
         }
-        real = ( (realEnd -realStart) / width) * horPixel +realStart;
+        real = ((realEnd -realStart) / width) * horPixel +realStart;
     }
     updateCanvas();
 }
@@ -183,6 +179,7 @@ function drawFractal()
 function redColor(reps)
 {
     var redSlider = 100/document.getElementById("redSlider").value;
+   
     return Math.abs(Math.cos( redSlider* Math.log(reps * Math.PI))) * 256;
 }
 
