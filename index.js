@@ -8,7 +8,6 @@ var context = canvas.getContext("2d");
 const height = document.getElementById("fracCanvas").height;
 const width = document.getElementById("fracCanvas").width;
 
-//complex plane intervals
 var realStart = -2;
 var realEnd = 2;
 var iStart =-1.12;
@@ -90,11 +89,11 @@ function iterate(comp)
     var constant = comp.add(comp);
   
     for (loo = 1; loo <= iterations; loo++)
-    {   
+    {
+        
         comp = comp.multiply(comp);
         comp = comp.add(constant);
-      
-        if ( comp.mag() >10 )
+        if ( comp.mag() > 10 )
         {
             return loo;
         } 
@@ -187,5 +186,13 @@ function drawPixel(horPixel,vertPixel,r,g,b,a)
     pixelVals.data[i + 2] = b;
     pixelVals.data[i + 3] = a;
 }        
+function refreshR()
+{
+    realStart = -2;
+    realEnd = 2;
+    iStart =-1.12;
+    iEnd = 1.12;
+    drawFractal();
+}
 
 drawFractal();
