@@ -14,16 +14,13 @@ var realEnd = 2;
 var iStart =-1.12;
 var iEnd = 1.12;
 
-// adds an event listener to a checkbox for later faking mouse clicks
-document.getElementById("flowBox").addEventListener("click", fakeClick);
+//Number of function iterations for each complex coordinated
+//1000 is the sweet spot in terms of quality of the visuals per ammount of render time
+var iterations = 1000;
 
 document.getElementById("redSlider").addEventListener("mouseup", drawFractal);
 document.getElementById("greenSlider").addEventListener("mouseup", drawFractal);
 document.getElementById("blueSlider").addEventListener("mouseup", drawFractal);
-
-//Number of function iterations for each complex coordinated
-//1000 is the sweet spot in terms of quality of the visuals per ammount of render time
-var iterations = 1000;
 
 //zoom value is the inverse of the input zoom multiplier
 var zoomInput=(1/document.getElementById("zoomInput").value);
@@ -42,7 +39,6 @@ var pixelVals = context.getImageData(0, 0, width, height);
 //function called on mousedown event on the canvas
 function zoom(evt)
 {
-  
     zoomInput=(1/document.getElementById("zoomInput").value);
     
     console.log(evt.x + " " + evt.y);
@@ -67,36 +63,18 @@ function zoom(evt)
     
     //calculates the interval length
     scale=Math.abs(realEnd)-Math.abs(realStart);
-    console.log(Math.abs(scale));
 
     //fractal redrawn
     drawFractal();  
-    console.log(performance.now());
-    
 
 }
 
-
-
-//for continuous zoom
-//creates a fake mouse event and then fakes continous clicks using a check box
-function fakeClick()
-{
-    fakeMouse = new Event("click");
-    fakeMouse.x = width/2.18;
-    fakeMouse.y = height/2.18;
-    
-    document.getElementById("zoomInput").value = 3;
-    zoom(fakeMouse);
-   
-
-    
-}
 
 //refreshes canvas with the new pixel values from the last loop
 function updateCanvas()
 {
     context.putImageData(pixelVals, 0, 0);
+    return true;
 }
 
 function custom(comp1, comp2)
