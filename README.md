@@ -2,7 +2,7 @@
 A fractal generator in HTML
 
 Authors:
-Max Goad
+Max Goad and 
 Apurva Rai
 
 Apr. 21-22, 2018
