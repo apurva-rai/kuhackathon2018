@@ -7,6 +7,8 @@ var realStart = -2;
 var realEnd = 2;
 var imaginaryStart =-1.12;
 var imaginaryEnd = 1.12;
+var zoomInput=(1/document.getElementById("zoomInput").value);
+var scale=0;
 
 var canvas = document.getElementById("fracCanvas");
 var context = canvas.getContext("2d");
@@ -16,11 +18,13 @@ canvas.addEventListener("mousedown", zoom, false);
 
 var rgba = context.getImageData(0, 0, width, height);
 
+
 function zoom(evt)
 {
   
+    zoomInput=(1/document.getElementById("zoomInput").value);
     
-    
+    console.log(zoomInput);
     var ycenter = -1*(evt.y/height)*(imaginaryEnd-imaginaryStart) + imaginaryEnd;
     console.log("y" + ycenter);
     
@@ -28,12 +32,16 @@ function zoom(evt)
     console.log("x" + xcenter);
     
     var tempEnd = realStart;
-    realStart = xcenter - (.4 *( realEnd-realStart))/2;
-    realEnd = xcenter - (.4 *( tempEnd-realEnd))/2;
+    realStart = xcenter - (zoomInput *( realEnd-realStart))/2;
+    realEnd = xcenter - (zoomInput*( tempEnd-realEnd))/2;
     
      tempEnd = imaginaryStart;
-    imaginaryStart = ycenter - (.4 *( imaginaryEnd-imaginaryStart))/2;
-    imaginaryEnd = ycenter - (.4 *( tempEnd-imaginaryEnd))/2;
+    imaginaryStart = ycenter - (zoomInput*( imaginaryEnd-imaginaryStart))/2;
+    imaginaryEnd = ycenter - (zoomInput *( tempEnd-imaginaryEnd))/2;
+    
+    scale=Math.abs(realEnd)-Math.abs(realStart);
+    console.log(Math.abs(scale));
+    
 
     /*
     var real1 = ( (realEnd - realStart) / width) * evt.x/2 + realStart;
