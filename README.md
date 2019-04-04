@@ -1,5 +1,5 @@
 # kuhackathon2018
-A fractal generator in HTML
+A fractal generator in JavaScript
 
 Authors:
 Max Goad and 
